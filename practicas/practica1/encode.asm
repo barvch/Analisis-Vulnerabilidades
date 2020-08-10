@@ -27,6 +27,13 @@ encode:
     jne encode  ;si no son iguales, regresa al ciclo, si sí, continúa
     ;sale del ciclo cuando acaba el proceso con todas las letras de la cadena
 
+    ;Se imprime el valor de la cadena después de hacer el proceso de encoding
+    push ecx
+    mov edx,len 
+    mov ecx,cadena 
+    call imprimir2
+    pop ecx
+
 ;El proceso de encode, lo hace de izquierda a derecha, pero todo lo que fue registrado dentro del stack, está
 ;invertido, por lo que si empezamos a hacer pop's del stack, obtendremos el valor del último caracter que fue 
 ;ingresado al stack y no del primero. El proceso de decode empezará desde el último caracter hasta el primero
@@ -67,11 +74,16 @@ imprimir:
     mov ebx,1
     int 0x80    ; llamada al sistema para mandar a pantalla el mensaje
     jmp salir
+imprimir2:
+    mov eax,4        ;llama a imprimir
+    mov ebx,1
+    int 0x80    ; llamada al sistema para mandar a pantalla el mensaje
+    ret 
 salir:
     mov eax,1   ;se indica que se sys_call = 1 para salir del programa
     mov ebx,0
     int 0x80    ;llamada al kernel para salir 
 
 section .data
-    cadena db 'Nanapancha le da vuelo a la hilacha', 10
+    cadena db 'Nanapancha de la vuelo a la hilacha', 10
     len equ $- cadena
