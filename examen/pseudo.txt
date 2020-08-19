@@ -1,0 +1,95 @@
+imprime("Baia, Baia ... si que has llegado lejos")
+imprime("It's time to crackme Miss/Mr Reverse Enginner ;)")
+rbp = 0x600a40 (shellcode)
+rdx = rbp
+eax = 0
+goto rdx
+
+rdx {
+	rcx = 0
+	rcx = 58
+	for (rcx, 0, rcx--){ //Ciclo para defuscar
+		rsi = XOR(rsi, edx)
+		edx += rsi
+	}
+	esi = 0
+	esi *= rax
+	esi += 1
+	al = 41
+	syscall(al) // Socket
+	al = 49
+	syscall(al) // Bind
+	al = 50
+	syscall(al) // Listen
+	rax = 0
+	al = 74
+	al -= 64 // al = 10 === \n en ASCII
+	read(rsp) //Se recibe lo que se le manda por el socket.
+	rcx = 0
+	for (caracter in rsp) {
+		if (caracter != rax){
+			rcx += 1
+		} else {
+			break
+		}
+	}
+	if (rcx != 29) {
+		exit
+	} else {
+		rcx = 0
+		rcx += 5
+		while (rcx <= 17) {
+			if (cadena[rcx] != "-") {
+				exit
+			} else {
+				rxc += 6
+			}
+		}
+		rcx = 0
+		rcx += 28
+		rax = 0
+		for (rcx, 0, rcx--) {
+			rbx = 0
+			bl = str[rcx]
+			rax += rbx
+		}
+		rbx = 0
+		bl = str[rcx]
+		rax += rbx
+		if (rax != 2271) {
+			exit
+		} else {
+			rdx = str.substring(6,29)
+			rcx = 0
+			rcx = 5
+			rax = 0
+			while (rcx >0) {
+				if (AND(b(rdx[rcx]),b(65)) == 0) {
+					if (AND(b(rdx[rcx]),b(97) == 0) {
+						rax += 1
+					} else {
+						rcx -= 1
+					}
+				} else {
+					rcx -= 1
+				}
+
+			}
+			if (AND(b(rcx),b(3)) == 0) {
+				exit
+			} else {
+				rax = 0
+				rbx = 0
+				rcx = 0
+				rdx = 0
+				al = 23
+				syscall(al) // dup2
+				rdi = "/bin/sh/"
+				al = 59
+				syscall(al) //execve
+			}
+			
+		}	
+		
+	}	 
+}
